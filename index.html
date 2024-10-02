@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórmula Cabelo Vital</title>
+    <!-- Ícone padrão do site (Favicon) -->
+    <link rel="icon" href="favicon.png" type="image/png">
+
+    <!-- Ícones para dispositivos móveis -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-top: 7px;
+            font-size: 60px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-family: 'Arial Black', sans-serif;
+            font-weight: bold;
+            position: relative;
+            z-index: 10;
+        }
+
+        .highlight {
+            color: #b04bcd;
+        }
+
+        @media (max-width: 850px) {
+            h1 {
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+
+            .break {
+                display: block;
+                margin-bottom: -7px;
+            }
+        }
+
+        .payment-method {
+            background: #121212;
+            border: 1px solid #121212;
+            border-radius: 8px;
+            height: 30px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15px;
+        }
+
+        .payment-icons {
+            display: flex;
+            justify-content: center; /* Centraliza os ícones horizontalmente */
+            gap: 50px; /* Define um espaçamento consistente entre os ícones */
+            position: relative;
+            width: 100%; /* Garante que o contêiner ocupe 100% do espaço disponível */
+            max-width: 400px; /* Define um limite máximo para evitar que os ícones se espalhem demais */
+        }
+
+        .payment-icon {
+            font-size: 20px;
+            color: #b04bcd;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            color: #000;
+            font-size: 14px;
+            white-space: nowrap;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .footer-info {
+            font-size: 0.8em;
+            color: #fff;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .info-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .cont2 {
+            font-size: 17px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .cont3 {
+            font-size: 15px;
+            color: #b6b6b6;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .bloco {
+            margin-bottom: 20px;
+        }
+
+        .bloco p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .bloco p b {
+            color: #aaaaaa;
+        }
+
+        .selo-kiwify {
+            background-color: #1a1a1a; /* cor de fundo do selo */
+            border-radius: 10px 10px 0 0; /* bordas arredondadas */
+            padding: 10px;
+            width: 160px; /* ajuste a largura conforme necessário */
+            position: fixed; /* ou absolute, dependendo de onde você quer */
+            bottom: 0px; /* ajuste a posição inferior */
+            left: 10px; /* ajuste a posição esquerda */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* sombra */
+            z-index: 1000; /* garantir que o selo fique acima de outros elementos */
+            transition: height 0.3s ease; /* transição suave na altura */
+            cursor: pointer; /* cursor em forma de ponteiro */
+            text-align: left; /* Alinhamento à esquerda */
+        }
+
+        .conteudo-selo {
+            display: flex;
+            align-items: center;
+        }
+
+        .icone-cadeado {
+            font-size: 35px; /* ajuste o tamanho do ícone */
+            margin-right: 10px; /* espaço à direita do ícone */
+            color: #707070; /* cor do ícone */
+        }
+
+        .texto-selo {
+            color: #c0c0c0; /* cor do texto */
+        }
+
+        .titulo {
+            font-weight: bold; /* texto em negrito */
+        }
+
+        .subtitulo {
+            font-size: 0.8em; /* tamanho menor para o subtítulo */
+            color: #919191; /* cor mais suave */
+        }
+
+        /* Estilo da mensagem que aparece ao clicar */
+        .mensagem {
+            display: none; /* esconde a mensagem inicialmente */
+            margin-top: 15px; /* espaço acima da mensagem */
+            color: #ffffff; /* cor da mensagem */
+        }
+
+        .mensagem span {
+            font-size: 13px;
+        }
+
+        /* Classe para expandir o selo */
+        .expandido {
+            height: 140px; /* altura expandida */
+        }
+
+        .container-prod-unique {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .bold-unique {
+            font-weight: bold;
+        }
+
+        .offer-message-unique {
+            margin-top: 15px;
+            color: #ffcc00;
+            font-size: 12px;
+        }
+
+        #buyButtonUnique {
+            padding: 15px 30px;
+            background-color: #218838;
+            color: white;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 20px;
+            animation: glow-unique 1.5s infinite;
+        }
+
+        #buyButtonUnique:hover {
+            background-color: #218838;
+        }
+
+        @keyframes glow-unique {
+            0% {
+                box-shadow: 0 0 3px #28a745, 0 0 5px #28a745, 0 0 8px #28a745;
+            }
+            50% {
+                box-shadow: 0 0 5px #28a745, 0 0 10px #28a745, 0 0 15px #28a745;
+            }
+            100% {
+                box-shadow: 0 0 3px #28a745, 0 0 5px #28a745, 0 0 8px #28a745;
+            }
+        }
+
+        .containe {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            margin-bottom: 5px;
+            border-radius: 10px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+        }
+
+        .controls {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            transition: opacity 0.5s ease;
+            animation: pulse-animation 1.5s infinite;
+        }
+
+        .play-button.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .pulse {
+            position: absolute;
+            width: 60px;
+            height: 0px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            animation: pulse-animation 1.5s infinite;
+            z-index: 1;
+        }
+
+        @keyframes pulse-animation {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .play-button::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .play-button.playing::before {
+            content: '';
+            width: 7px;
+            height: 24px;
+            background-color: white;
+            border-left: none;
+            border-top: none;
+            border-bottom: none;
+            transition: all 0.3s ease;
+            left: 18px;
+        }
+
+        .play-button.playing::after {
+            content: '';
+            position: absolute;
+            width: 7px;
+            height: 24px;
+            background-color: white;
+            right: 18px;
+            transition: all 0.3s ease;
+        }
+
+        /* Camada escurecida, começa invisível */
+        .dark-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            z-index: 1; /* Coloca atrás do texto */
+            pointer-events: none; /* Permite cliques através da camada */
+            transition: opacity 1s ease;
+        }
+
+        /* Estilo para a palavra "fim" */
+        .end-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .end-message span {
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>O SEGREDO PARA<span class="break"> </span><span class="highlight">RESSUSCITAR</span> OS <span class="highlight">FIOS!</span></h1>
+
+        <div class="containe">
+            <video id="video" poster="capa.jpg">
+                <source src="video1.mp4" type="video/mp4">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+
+            <div class="controls">
+                <div class="pulse"></div>
+                <button class="play-button" id="playPauseBtn" onclick="togglePlayPause()"></button>
+            </div>
+
+            <div class="end-message" id="endMessage">
+                <span>🚀</span><br>
+                Garanta seu acesso antes que esgote!
+              </div>
+              
+            <div class="dark-overlay" id="darkOverlay"></div> <!-- Camada escurecida -->
+        </div>
+
+        <div class="payment-method">
+            <div class="payment-icons">
+                <div class="payment-icon" id="icon-cartao">
+                    <i class="fas fa-credit-card"></i>
+                    <div class="tooltip">Cartão</div>
+                </div>
+                <div class="payment-icon" id="icon-boleto">
+                    <i class="fas fa-file-invoice"></i>
+                    <div class="tooltip">Boleto</div>
+                </div>
+                <div class="payment-icon" id="icon-pix">
+                    <i class="fas fa-solid fa-money-bill"></i>
+                    <div class="tooltip">Pix</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-prod-unique">
+            <button id="buyButtonUnique" class="bold-unique" onclick="window.location.href='https://pay.kiwify.com.br/GifLnah'">Garantir meu acesso agora</button>
+            <div class="offer-message-unique">Oferta por tempo limitado 4x de R$5,38</div>
+        </div>
+
+        <div class="info-container">
+            <div class="cont2">Os módulos abordados</div>
+            <div class="bloco">
+                <p><b>Recuperação de Fios Ressecados:</b> Sentir os fios ásperos e sem vida ao toque é frustrante, especialmente quando nada parece funcionar. No <strong>Fórmula Cabelo Vital</strong>, você vai aprender técnicas poderosas para restaurar a hidratação natural do seu cabelo, transformando fios ressecados em cabelos macios e radiantes.</p>
+            </div>
+
+            <div class="bloco">
+                <p><b>Fortalecimento e Prevenção de Pontas Duplas:</b> Após devolver a maciez aos seus fios, o medo das pontas duplas ainda te acompanha. No <strong>Fórmula Cabelo Vital</strong>, você vai descobrir como fortalecer as fibras capilares e prevenir a formação de pontas duplas, garantindo um cabelo bonito e saudável por mais tempo.</p>
+            </div>
+
+            <div class="bloco">
+                <p><b>Manutenção e Brilho Duradouro:</b> Com os fios recuperados e fortalecidos, manter essa saúde e brilho pode ser um desafio. O <strong>Fórmula Cabelo Vital</strong> vai te guiar em um plano prático de cuidados para que seus cabelos se mantenham hidratados e deslumbrantes, dia após dia.</p>
+            </div>
+            <div class="cont3">Mais informações no vídeo acima...</div>
+        </div>
+
+        <!-- Botão para resetar o progresso do vídeo -->
+        <button id="resetBtn" onclick="resetVideoProgress()">Resetar Progresso</button>
+
+        <div class="footer-info">
+            <p><strong>Garantia de Satisfação de 60 Dias</strong></p>
+            <p>© 2023 — 2024 Método Cabelo DNA</p>
+        </div>
+
+        <div class="selo-kiwify" id="seloKiwify">
+            <div class="conteudo-selo">
+                <i class="fas fa-lock icone-cadeado"></i>
+                <div class="texto-selo">
+                    <span class="titulo">Kiwify</span><br>
+                    <span class="subtitulo">Site Confiável</span>
+                </div>
+            </div>
+            <div class="mensagem" id="mensagemKiwify">
+                <span>
+                    <strong>Kiwify varejista confiável.<br></strong>
+                    Se você não estiver satisfeito com sua compra, devolvemos seu dinheiro. Sua satisfação é garantida!
+                </span>
+            </div>
+        </div>
+
+        <script>
+            var video = document.getElementById('video');
+            var playPauseBtn = document.getElementById('playPauseBtn');
+            var endMessage = document.getElementById('endMessage');
+            var darkOverlay = document.getElementById('darkOverlay');
+            var containerProdUnique = document.querySelector('.container-prod-unique');
+    
+            // Função para verificar e mostrar o botão de compra se o vídeo já passou dos 30 segundos
+            function checkVideoProgress() {
+                if (localStorage.getItem('videoWatched') === 'true') {
+                    containerProdUnique.style.display = 'block';
+                }
+            }
+    
+            // Função para salvar no LocalStorage
+            function saveVideoProgress() {
+                localStorage.setItem('videoWatched', 'true');
+            }
+    
+            // Função para resetar o progresso do vídeo (para testes)
+            function resetVideoProgress() {
+                localStorage.removeItem('videoWatched');
+                containerProdUnique.style.display = 'none';
+                alert('Progresso do vídeo resetado. Assista novamente para ver o botão de compra aparecer.');
+            }
+    
+            // Verifica o progresso ao carregar a página
+            window.onload = checkVideoProgress;
+    
+            function togglePlayPause() {
+                if (video.paused) {
+                    video.play();
+                    playPauseBtn.classList.add('playing');
+                    setTimeout(() => {
+                        playPauseBtn.classList.add('hidden');
+                    }, 600);
+                } else {
+                    video.pause();
+                    playPauseBtn.classList.remove('playing');
+                    playPauseBtn.classList.remove('hidden');
+                }
+            }
+    
+            video.addEventListener('timeupdate', function() {
+                if (video.currentTime >= 60) {
+                    containerProdUnique.style.display = 'block';
+                    saveVideoProgress(); // Salva no LocalStorage
+                }
+            });
+    
+            video.addEventListener('ended', function() {
+                endMessage.style.opacity = 1;
+                darkOverlay.style.opacity = 1;
+            });
+        </script>
+
+    <script>
+        // Seleciona o selo e a mensagem
+        const seloKiwify = document.getElementById('seloKiwify');
+        const mensagemKiwify = document.getElementById('mensagemKiwify');
+
+        let timeoutId; // Variável para armazenar o ID do timeout
+
+        // Função para fechar o selo após 10 segundos
+        function fecharSelo() {
+            seloKiwify.classList.remove('expandido'); // Remove a classe 'expandido'
+            mensagemKiwify.style.display = 'none'; // Esconde a mensagem
+        }
+
+        // Adiciona um evento de clique ao selo
+        seloKiwify.addEventListener('click', () => {
+            // Alterna a classe 'expandido'
+            seloKiwify.classList.toggle('expandido');
+
+            // Alterna a visibilidade da mensagem
+            if (mensagemKiwify.style.display === 'block') {
+                mensagemKiwify.style.display = 'none'; // Esconde a mensagem
+                clearTimeout(timeoutId); // Limpa o timeout se o selo for fechado manualmente
+            } else {
+                mensagemKiwify.style.display = 'block'; // Mostra a mensagem
+
+                // Define um timeout para fechar o selo após 10 segundos
+                timeoutId = setTimeout(fecharSelo, 7000); // 10000ms = 10s
+            }
+        });
+    </script>
+
+    <script>
+        let tooltipTimeout;
+
+        // Função para alternar a exibição do balão
+        function toggleTooltip(iconId) {
+            const icon = document.getElementById(iconId);
+            const tooltip = icon.querySelector('.tooltip');
+            const isVisible = tooltip.style.display === 'block';
+
+            // Oculta todos os balões antes de mostrar o selecionado
+            document.querySelectorAll('.tooltip').forEach(tip => tip.style.display = 'none');
+
+            // Exibe ou oculta o balão conforme o estado
+            if (!isVisible) {
+                tooltip.style.display = 'block';
+                
+                // Limpa o timeout anterior para evitar esconder o balão prematuramente
+                clearTimeout(tooltipTimeout);
+
+                // Inicia o timer para esconder o balão após 2 segundos
+                tooltipTimeout = setTimeout(() => {
+                    tooltip.style.display = 'none';
+                }, 2000);
+            } else {
+                tooltip.style.display = 'none';
+                clearTimeout(tooltipTimeout);  // Cancela o esconder se o ícone for clicado novamente
+            }
+        }
+
+        // Adiciona evento de clique aos ícones
+        document.getElementById('icon-cartao').addEventListener('click', () => toggleTooltip('icon-cartao'));
+        document.getElementById('icon-boleto').addEventListener('click', () => toggleTooltip('icon-boleto'));
+        document.getElementById('icon-pix').addEventListener('click', () => toggleTooltip('icon-pix'));
+    </script>
+
+</body>
+</html>
